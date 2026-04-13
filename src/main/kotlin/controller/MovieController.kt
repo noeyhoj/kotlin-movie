@@ -48,7 +48,7 @@ class MovieController {
     fun searchMovie(): Movie =
         try {
             val input = inputView.movieTitleInput()
-            movies.findMovie(input)
+            movies.getMovie(input)
         } catch (e: IllegalArgumentException) {
             outputView.printErrorMessage(e.message.toString())
             searchMovie()
