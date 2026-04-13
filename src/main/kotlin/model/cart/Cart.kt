@@ -3,6 +3,7 @@ package model.cart
 import model.discount.reserveDiscountPolicy.ReserveDiscountPolicy
 import model.schedule.Screening
 import model.seat.Price
+
 class Cart(
     val items: List<CartItem> = emptyList(),
 ) {

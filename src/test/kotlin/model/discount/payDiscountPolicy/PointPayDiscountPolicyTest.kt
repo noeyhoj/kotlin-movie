@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 
 class PointPayDiscountPolicyTest {
-
     @Test
     fun `사용자가 사용하는 포인트가 결제 금액보다 크다면 오류를 반환한다`() {
         val usePoint = 60000

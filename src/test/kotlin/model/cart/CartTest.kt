@@ -180,7 +180,7 @@ class CartTest {
             seatInventory = SeatInventory.createDefaultSeatInventory(),
         )
 
-    private class MockMovieDayDiscountPolicy: ReserveDiscountPolicy {
+    private class MockMovieDayDiscountPolicy : ReserveDiscountPolicy {
         private val discountDate = listOf(10, 20, 30)
 
         override fun calculatePrice(
@@ -194,7 +194,7 @@ class CartTest {
         }
     }
 
-    private class MockTimeDiscountPolicy: ReserveDiscountPolicy {
+    private class MockTimeDiscountPolicy : ReserveDiscountPolicy {
         private val notDiscountTime = listOf(11, 12, 13, 14, 15, 16, 17, 18, 19)
 
         override fun calculatePrice(

@@ -21,7 +21,6 @@ class PriceTest {
         values.forEach { value ->
             val price = Price(value)
             assertThat(price.value >= 0).isTrue
-
         }
     }
 }

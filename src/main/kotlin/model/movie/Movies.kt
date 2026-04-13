@@ -6,6 +6,7 @@ class Movies(
     init {
         require(_value.isNotEmpty()) { "영화 정보가 없습니다" }
     }
+
     val value = _value.toList()
 
     fun findMovie(movieTitle: String): Movie =
