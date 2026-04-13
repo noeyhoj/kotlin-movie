@@ -129,7 +129,7 @@ class CartTest {
             )
 
         assertThrows<IllegalArgumentException> {
-            cart.isOverlapping(selectedScreening)
+            cart.parseOverlapping(selectedScreening)
         }
     }
 
@@ -155,7 +155,7 @@ class CartTest {
                 seatInventory = SeatInventory.createDefaultSeatInventory(),
             )
 
-        assertDoesNotThrow { cart.isOverlapping(selectedScreening) }
+        assertDoesNotThrow { cart.parseOverlapping(selectedScreening) }
     }
 
     private fun createScreening(

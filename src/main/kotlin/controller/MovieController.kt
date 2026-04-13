@@ -113,7 +113,7 @@ class MovieController {
             val number = inputView.screeningNumberInput(screenings.size)
             selectedScreening = screenings[number - 1]
 
-            cart.isOverlapping(selectedScreening)
+            cart.parseOverlapping(selectedScreening)
 
             selectedScreening
         } catch (e: IllegalArgumentException) {

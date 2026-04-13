@@ -9,7 +9,7 @@ class Cart(
     val items: List<CartItem> = emptyList(),
 ) {
     // 선택한 영화 시간이 장바구니의 다른 영화 시간과 겹치는지 확인하는 함수
-    fun isOverlapping(selectedScreening: Screening) {
+    fun parseOverlapping(selectedScreening: Screening) {
         if (items.any {
                 it.screening.movie.title != selectedScreening.movie.title &&
                     it.screening.isOverlapping(selectedScreening)
