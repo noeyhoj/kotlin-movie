@@ -4,20 +4,21 @@ import model.movie.Movie
 import model.seat.SeatInventory
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.ValueSource
 import java.time.LocalDate
 import java.time.LocalDateTime
 
 class ScreeningTest {
-    @Test
-    fun `일정은 선택한 좌석들을 예약할 수 있다`() {
+    @ParameterizedTest
+    @ValueSource(strings = ["A1", "B2"])
+    fun `일정은 선택한 좌석들을 예약할 수 있다`(seatName: String) {
         val screening = createScreening()
         val seatNames = listOf("A1", "B2")
 
         val reservedScreening = screening.reserveSeats(seatNames)
 
-        seatNames.forEach { name ->
-            assertThat(reservedScreening.seatInventory.getSeat(name).isReserved).isTrue
-        }
+        assertThat(reservedScreening.seatInventory.getSeat(seatName).isReserved).isTrue
     }
 
     @Test

@@ -3,18 +3,19 @@ package model.seat
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.ValueSource
 
 class SeatInventoryTest {
-    @Test
-    fun `여러 좌석을 선택하여 예매할 수 있다`() {
+    @ParameterizedTest
+    @ValueSource(strings = ["A1", "B2", "C3"])
+    fun `여러 좌석을 선택하여 예매할 수 있다`(seatName: String) {
         val seatInventory = SeatInventory.createDefaultSeatInventory()
         val seatNames = listOf("A1", "B2", "C3")
 
         val newSeatInventory = seatInventory.reserveSeats(seatNames)
 
-        seatNames.forEach { name ->
-            assertThat(newSeatInventory.getSeat(name).isReserved).isTrue
-        }
+        assertThat(newSeatInventory.getSeat(seatName).isReserved).isTrue
     }
 
     @Test
