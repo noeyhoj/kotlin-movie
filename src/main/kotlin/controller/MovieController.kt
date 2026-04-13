@@ -27,13 +27,9 @@ class MovieController {
     // 시작 시 실행 여부를 받는 함수
     fun checkMovieReserve(): Boolean {
         return try {
-            val input = inputView.movieReserveInput()
+            val answer = inputView.movieReserveInput()
 
-            return when (input) {
-                "Y" -> true
-                "N" -> false
-                else -> throw IllegalArgumentException("잘못된 입력입니다")
-            }
+            return answer
         } catch (e: IllegalArgumentException) {
             outputView.printErrorMessage(e.message.toString())
             checkMovieReserve()
@@ -43,12 +39,9 @@ class MovieController {
     // 예약을 한 번 이상 마친 후에 다시 예약을 할 것인지 여부를 묻는 함수
     fun checkMovieAdd(): Boolean =
         try {
-            val input = inputView.againMovieReserveInput()
-            when (input) {
-                "Y" -> true
-                "N" -> false
-                else -> throw IllegalArgumentException("잘못된 입력입니다")
-            }
+            val answer = inputView.againMovieReserveInput()
+
+            return answer
         } catch (e: IllegalArgumentException) {
             outputView.printErrorMessage(e.message.toString())
             checkMovieAdd()
@@ -66,13 +59,10 @@ class MovieController {
 
     // 날짜를 받아 LocalDate로 반환해주는 함수
     fun inputDate(): LocalDate {
-        val dateRegex = """^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$""".toRegex()
         return try {
-            val input = inputView.dateInput()
-            if (!input.matches(dateRegex)) {
-                throw IllegalArgumentException("잘못된 날짜 입력입니다")
-            }
-            LocalDate.parse(input)
+            val date = inputView.dateInput()
+
+            return date
         } catch (e: Exception) {
             outputView.printErrorMessage(e.message.toString())
             inputDate()
@@ -203,13 +193,9 @@ class MovieController {
     // 결제할 것인지 여부를 묻는 함수
     fun checkPayment(): Boolean {
         return try {
-            val input = inputView.paymentConfirmInput()
+            val answer = inputView.paymentConfirmInput()
 
-            return when (input) {
-                "Y" -> true
-                "N" -> false
-                else -> throw IllegalArgumentException("잘못된 입력입니다")
-            }
+            return answer
         } catch (e: IllegalArgumentException) {
             outputView.printErrorMessage(e.message.toString())
             checkPayment()

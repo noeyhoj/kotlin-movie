@@ -1,12 +1,14 @@
 package view
 
+import java.time.LocalDate
+
 class InputView {
     // 영화 예매 입력뷰
-    fun movieReserveInput(): String {
+    fun movieReserveInput(): Boolean {
         println("영화 예매를 시작합니다. 새 예매를 생성하시겠습니까? (Y/N)")
         val answer = readln()
 
-        return answer
+        return yesOrNo(answer)
     }
 
     // 영화 제목 입력 뷰
@@ -18,11 +20,17 @@ class InputView {
     }
 
     // 날짜 입력 뷰
-    fun dateInput(): String {
+    fun dateInput(): LocalDate {
         println("\n날짜를 입력하세요 (YYYY-MM-DD):")
+
+        val dateRegex = """^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$""".toRegex()
         val answer = readln()
 
-        return answer
+        if (!answer.matches(dateRegex)) {
+            throw IllegalArgumentException("잘못된 날짜 입력입니다")
+        }
+
+        return LocalDate.parse(answer)
     }
 
     // 상영 번호 입력 뷰
@@ -41,11 +49,11 @@ class InputView {
     }
 
     // 다른 영화 추가 여부 뷰
-    fun againMovieReserveInput(): String {
+    fun againMovieReserveInput(): Boolean {
         println("\n다른 영화를 추가하시겠습니까? (Y/N)")
         val answer = readln()
 
-        return answer
+        return yesOrNo(answer)
     }
 
     // 포인트 입력 뷰
@@ -63,8 +71,17 @@ class InputView {
     }
 
     // 영수증 뷰
-    fun paymentConfirmInput(): String {
+    fun paymentConfirmInput(): Boolean {
         println("\n위 금액으로 결제하시겠습니까? (Y/N)")
-        return readln()
+        val answer = readln()
+
+        return yesOrNo(answer)
     }
+
+    private fun yesOrNo(input: String): Boolean =
+        when (input) {
+            "Y" -> true
+            "N" -> false
+            else -> throw IllegalArgumentException("잘못된 입력입니다")
+        }
 }
