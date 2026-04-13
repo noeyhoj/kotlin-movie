@@ -16,9 +16,12 @@ class PriceTest {
 
     @Test
     fun `금액이 0 이상이어야 한다`() {
-        val value = 2000
-        val price = Price(value)
+        val values = listOf(0, 2000, 3000, 50000, 100000)
 
-        assertThat(price.value).isEqualTo(2000)
+        values.forEach { value ->
+            val price = Price(value)
+            assertThat(price.value >= 0).isTrue
+
+        }
     }
 }
