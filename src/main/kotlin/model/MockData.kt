@@ -76,7 +76,7 @@ object MockData {
 
     val movies =
         Movies(
-            value =
+            _value =
                 listOf(
                     TOP_GUN_MAVERICK,
                     MATHER,

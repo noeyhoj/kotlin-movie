@@ -1,11 +1,12 @@
 package model.movie
 
 class Movies(
-    val value: List<Movie>,
+    private val _value: List<Movie>,
 ) {
     init {
-        require(value.isNotEmpty()) { "영화 정보가 없습니다" }
+        require(_value.isNotEmpty()) { "영화 정보가 없습니다" }
     }
+    val value = _value.toList()
 
     fun findMovie(movieTitle: String): Movie =
         value.find { it.title == movieTitle }
