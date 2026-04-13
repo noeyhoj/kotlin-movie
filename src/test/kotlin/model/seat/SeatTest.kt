@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 
 class SeatTest {
-
     @Test
     fun `이미 예약된 좌석을 선택한다면 에러가 발생한다`() {
         val row = "A"

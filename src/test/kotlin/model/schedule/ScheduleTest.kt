@@ -10,7 +10,6 @@ import java.time.LocalDateTime
 import java.time.LocalTime
 
 class ScheduleTest {
-
     @Test
     fun `일정의 총 시각(시작 시각부터 종료 시각까지)은 영화의 상영 시간보다 크거나 같아야 한다`() {
         val movieRunningTime = Duration.ofMinutes(130)

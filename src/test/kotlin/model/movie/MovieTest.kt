@@ -1,12 +1,10 @@
 package model.movie
 
-import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import java.time.LocalDate
 
 class MovieTest {
-
     @Test
     fun `영화의 상영시간은 0보다 커야 한다`() {
         assertThrows<IllegalArgumentException> {
