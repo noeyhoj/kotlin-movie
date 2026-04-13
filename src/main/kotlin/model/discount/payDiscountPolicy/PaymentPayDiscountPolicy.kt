@@ -3,7 +3,6 @@ package model.discount.payDiscountPolicy
 import model.discount.PaymentMethod
 import model.seat.Price
 
-// 현금 및 카드 결제 할인 방식
 class PaymentPayDiscountPolicy(
     private val paymentMethod: PaymentMethod,
 ) : PayDiscountPolicy {

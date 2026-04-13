@@ -24,7 +24,6 @@ class MovieController {
     var schedule = MockData.mockSchedule
     var cart = Cart()
 
-    // 시작 시 실행 여부를 받는 함수
     fun checkMovieReserve(): Boolean {
         return try {
             val answer = inputView.movieReserveInput()
@@ -36,7 +35,6 @@ class MovieController {
         }
     }
 
-    // 예약을 한 번 이상 마친 후에 다시 예약을 할 것인지 여부를 묻는 함수
     fun checkMovieAdd(): Boolean =
         try {
             val answer = inputView.againMovieReserveInput()
@@ -47,7 +45,6 @@ class MovieController {
             checkMovieAdd()
         }
 
-    // 제목과 일치하는 영화 리스트를 반환하는 함수
     fun searchMovie(): Movie =
         try {
             val input = inputView.movieTitleInput()
@@ -57,7 +54,6 @@ class MovieController {
             searchMovie()
         }
 
-    // 날짜를 받아 LocalDate로 반환해주는 함수
     fun inputDate(): LocalDate {
         return try {
             val date = inputView.dateInput()
@@ -70,12 +66,10 @@ class MovieController {
     }
 
     fun getScreeningsOfDateAndTitle(): Screening {
-        // 영화 선택
         val movie = searchMovie()
         var screenings: List<Screening>
 
         while (true) {
-            // 날짜 선택 후 해당 영화의 상영 목록 조회
             val date = inputDate()
             screenings = getScreenings(movie = movie, date = date)
             if (screenings.isNotEmpty()) {
@@ -84,7 +78,6 @@ class MovieController {
         }
     }
 
-    // 상영관을 받아오는 함수
     fun getScreenings(
         movie: Movie,
         date: LocalDate,
@@ -102,7 +95,6 @@ class MovieController {
         return screenings
     }
 
-    // 상영 시간대를 고르는 함수
     fun selectMovieTime(
         cart: Cart,
         screenings: List<Screening>,
@@ -122,7 +114,6 @@ class MovieController {
         }
     }
 
-    // 좌석을 선택하는 함수
     fun inputSeats(): List<String> {
         return try {
             return inputView
@@ -140,9 +131,7 @@ class MovieController {
         var reservedScreening: Screening
         while (true) {
             try {
-                // 입력한 좌석
                 seatNames = inputSeats()
-                // 장바구니에 추가
                 reservedScreening = getReservedScreening(selectedScreening, seatNames)
                 break
             } catch (e: IllegalArgumentException) {
@@ -161,13 +150,11 @@ class MovieController {
         )
     }
 
-    // 장바구니에 추가
     fun getReservedScreening(
         selectedScreening: Screening,
         seatNames: List<String>,
     ): Screening = selectedScreening.reserveSeats(seatNames)
 
-    // 포인트를 받아오는 함수
     fun usePoint(): Int =
         try {
             inputView.pointInput().toIntOrNull() ?: throw IllegalArgumentException("숫자를 입력해주세요")
@@ -176,7 +163,6 @@ class MovieController {
             usePoint()
         }
 
-    // 결제 방법을 선택하는 함수
     fun selectPaymentMethod(): PaymentMethod =
         try {
             val input = inputView.paymentMethodInput()
@@ -190,7 +176,6 @@ class MovieController {
             selectPaymentMethod()
         }
 
-    // 결제할 것인지 여부를 묻는 함수
     fun checkPayment(): Boolean {
         return try {
             val answer = inputView.paymentConfirmInput()
@@ -202,45 +187,37 @@ class MovieController {
         }
     }
 
-    // 장바구니 안의 값들을 계산하는 함수
     fun run() {
         if (!checkMovieReserve()) return
 
         do {
-            // 제목과 날짜를 받아 영화 리스트를 받아온다
             val selectedScreening: Screening = getScreeningsOfDateAndTitle()
 
-            // 좌석 배치도 출력 후 좌석 선택
             outputView.printSeatInventory(selectedScreening.seatInventory)
 
-            // 좌석을 고른 후에 장바구니에 담는다
             val cartItem = reservedScreening(selectedScreening)
             cart = cart.addItem(cartItem)
 
             outputView.printCartItemAdded(cartItem)
         } while (checkMovieAdd())
 
-        // 장바구니 출력
         outputView.printCart(cart)
 
-        // 포인트 및 결제 수단 선택
         val usePoint = usePoint()
         val paymentMethod = selectPaymentMethod()
 
-        // 영화 시간에 따른 가격 계산
         val moviePrice =
             cart.calculateItemsPrice(
                 reserveDiscountPolicy =
                     MovieDiscountPolicy(
                         movieDiscountPolicies =
                             listOf(
-                                MovieDayDiscountPolicy(), // 영화 할인 정책
-                                TimeDiscountPolicy(), // 시간 할인 정책
+                                MovieDayDiscountPolicy(),
+                                TimeDiscountPolicy(),
                             ),
                     ),
             )
 
-        // 포인트 및 현금, 카드 할인 계산
         val totalPrice =
             PayDiscountBenefits(
                 payDiscountPolicies =
@@ -252,7 +229,6 @@ class MovieController {
 
         outputView.printTotalPrice(totalPrice.value)
 
-        // 결제 확인
         if (checkPayment()) {
             outputView.printReservationComplete(
                 cart,

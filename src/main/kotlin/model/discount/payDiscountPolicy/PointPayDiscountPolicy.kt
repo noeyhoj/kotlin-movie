@@ -2,7 +2,6 @@ package model.discount.payDiscountPolicy
 
 import model.seat.Price
 
-// 포인트 결제 방식
 class PointPayDiscountPolicy(
     private val usePoint: Int,
 ) : PayDiscountPolicy {

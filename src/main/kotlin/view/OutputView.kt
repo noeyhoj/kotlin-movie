@@ -8,12 +8,10 @@ import model.seat.SeatRank
 import java.time.format.DateTimeFormatter
 
 class OutputView {
-    // 에러 메세지 출력 함수
     fun printErrorMessage(message: String) {
         println("\n$message")
     }
 
-    // 해당 날짜의 상영 목록 출력 함수
     fun printScreenings(screenings: List<Screening>) {
         println("\n해당 날짜의 상영 목록")
         screenings.forEachIndexed { index, screening ->
@@ -21,7 +19,6 @@ class OutputView {
         }
     }
 
-    // 좌석 배치도를 출력하는 함수
     fun printSeatInventory(seatInventory: SeatInventory) {
         println("\n좌석 배치도")
         val columns = SeatInventory.columns
@@ -48,13 +45,11 @@ class OutputView {
         }
     }
 
-    // 장바구니에 추가됨을 출력하는 함수
     fun printCartItemAdded(cartItem: CartItem) {
         println("\n장바구니에 추가됨")
         println(formatCartItem(cartItem))
     }
 
-    // 장바구니에 담겨있는 목록을 출력하는 함수
     fun printCart(cart: Cart) {
         println("\n장바구니")
         cart.items.forEach {
@@ -62,13 +57,11 @@ class OutputView {
         }
     }
 
-    // 결제 금액을 출력하는 함수
     fun printTotalPrice(totalPrice: Int) {
         println("\n가격 계산")
         println("최종 결제 금액: ${"%,d".format(totalPrice)}원")
     }
 
-    // 할인 적용 포함 결제 내역을 출력하는 함수
     fun printReservationComplete(
         cart: Cart,
         totalPrice: Int,

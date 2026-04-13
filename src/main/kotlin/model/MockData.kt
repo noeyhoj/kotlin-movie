@@ -89,12 +89,10 @@ object MockData {
                 ),
         )
 
-    // 9시에 오픈하고 23시 59분에 종료되는 상영관
     val mockSchedule =
         Schedule(
             openTime = LocalTime.of(9, 0),
             closeTime = LocalTime.of(23, 59),
-            // 2026년 4월 10일의 영화 상영 시간표
             screenings =
                 listOf(
                     Screening(
