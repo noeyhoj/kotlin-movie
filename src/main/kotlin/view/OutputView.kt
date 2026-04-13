@@ -35,7 +35,7 @@ class OutputView {
             print("$row ")
             columns.forEach { col ->
                 val seat =
-                    seatInventory.findSeat("$row$col")
+                    seatInventory.getSeat("$row$col")
                 val label =
                     when (seat.seatRank) {
                         SeatRank.S_RANK -> "S"

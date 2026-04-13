@@ -13,7 +13,7 @@ class SeatInventoryTest {
         val newSeatInventory = seatInventory.reserveSeats(seatNames)
 
         seatNames.forEach { name ->
-            assertThat(newSeatInventory.findSeat(name).isReserved).isTrue
+            assertThat(newSeatInventory.getSeat(name).isReserved).isTrue
         }
     }
 
@@ -34,7 +34,7 @@ class SeatInventoryTest {
         val seatInventory = SeatInventory.createDefaultSeatInventory()
 
         assertThrows<IllegalArgumentException> {
-            seatInventory.findSeat("Z9")
+            seatInventory.getSeat("Z9")
         }
     }
 

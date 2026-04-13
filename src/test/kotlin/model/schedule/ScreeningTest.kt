@@ -16,7 +16,7 @@ class ScreeningTest {
         val reservedScreening = screening.reserveSeats(seatNames)
 
         seatNames.forEach { name ->
-            assertThat(reservedScreening.seatInventory.findSeat(name).isReserved).isTrue
+            assertThat(reservedScreening.seatInventory.getSeat(name).isReserved).isTrue
         }
     }
 

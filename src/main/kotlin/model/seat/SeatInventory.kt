@@ -1,7 +1,5 @@
 package model.seat
 
-import model.seat.SeatRank
-
 data class SeatInventory(
     val seats: List<Seat>,
 ) {
@@ -11,13 +9,11 @@ data class SeatInventory(
     }
 
     // 좌석을 찾는 함수
-    fun findSeat(seatName: String): Seat =
-        seats.find { it.getSeatName() == seatName }
-            ?: throw IllegalArgumentException("존재하지 않는 좌석입니다")
+    fun getSeat(seatName: String): Seat = seats.find { it.getSeatName() == seatName } ?: throw IllegalArgumentException("존재하지 않는 좌석입니다")
 
     // 좌석 예약하는 함수
     fun reserveSeats(seatNames: List<String>): SeatInventory {
-        val targetSeats = seatNames.map { findSeat(it) }
+        val targetSeats = seatNames.map { getSeat(it) }
 
         return copy(
             seats =
@@ -35,7 +31,7 @@ data class SeatInventory(
     fun calculatePrice(seatNames: List<String>): Price =
         Price(
             seatNames.sumOf {
-                findSeat(it).seatRank.price.value
+                getSeat(it).seatRank.price.value
             },
         )
 
