@@ -69,30 +69,15 @@ class MovieController {
         val movie = searchMovie()
         var screenings: List<Screening>
 
-        while (true) {
+        return try {
             val date = inputDate()
-            screenings = getScreenings(movie = movie, date = date)
-            if (screenings.isNotEmpty()) {
-                return selectMovieTime(cart, screenings)
-            }
-        }
-    }
-
-    fun getScreenings(
-        movie: Movie,
-        date: LocalDate,
-    ): List<Screening> {
-        val screenings =
-            schedule
-                .getScreeningsByMovie(movie)
-                .filter { it.startDateTime.toLocalDate() == date }
-
-        if (screenings.isEmpty()) {
-            outputView.printErrorMessage("해당 날짜에 상영 중인 영화가 없습니다.")
-        } else {
+            screenings = schedule.getScreeningsByMovieAndDate(movie = movie, date = date)
             outputView.printScreenings(screenings)
+            return selectMovieTime(cart, screenings)
+        } catch (e: IllegalArgumentException) {
+            outputView.printErrorMessage(e.message.toString())
+            getScreeningsOfDateAndTitle()
         }
-        return screenings
     }
 
     fun selectMovieTime(

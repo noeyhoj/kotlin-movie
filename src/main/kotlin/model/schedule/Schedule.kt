@@ -1,6 +1,7 @@
 package model.schedule
 
 import model.movie.Movie
+import java.time.LocalDate
 import java.time.LocalTime
 
 class Schedule(
@@ -25,5 +26,10 @@ class Schedule(
                 },
         )
 
-    fun getScreeningsByMovie(movie: Movie): List<Screening> = screenings.filter { it.movie == movie }
+    fun getScreeningsByMovieAndDate(movie: Movie, date: LocalDate): List<Screening> {
+        val filterScreenings = screenings
+            .filter { it.movie == movie && it.startDateTime.toLocalDate() == date }
+        if(filterScreenings.isEmpty()) throw IllegalArgumentException("해당 날짜에 상영 중인 영화가 없습니다.")
+        return filterScreenings
+    }
 }
