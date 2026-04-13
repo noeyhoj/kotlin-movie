@@ -1,5 +1,6 @@
 package view
 
+import model.discount.PaymentMethod
 import java.time.LocalDate
 
 class InputView {
@@ -55,11 +56,11 @@ class InputView {
         return readln()
     }
 
-    fun paymentMethodInput(): String {
+    fun paymentMethodInput(): PaymentMethod {
         println("\n결제 수단을 선택하세요:")
         println("1) 신용카드(5% 할인)")
         println("2) 현금(2% 할인)")
-        return readln()
+        return choosePaymentMethod(readln())
     }
 
     fun paymentConfirmInput(): Boolean {
@@ -73,6 +74,13 @@ class InputView {
         when (input) {
             "Y" -> true
             "N" -> false
+            else -> throw IllegalArgumentException("잘못된 입력입니다")
+        }
+
+    private fun choosePaymentMethod(input: String): PaymentMethod =
+        when (input) {
+            "1" -> PaymentMethod.CARD
+            "2" -> PaymentMethod.CASH
             else -> throw IllegalArgumentException("잘못된 입력입니다")
         }
 }
