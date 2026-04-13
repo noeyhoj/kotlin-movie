@@ -2,11 +2,11 @@ package model.cart
 
 import model.MockData.HOPPERS
 import model.MockData.THE_LAST_10_YEARS
-import model.discount.reserveDiscountPolicy.MovieDayDiscountPolicy
 import model.discount.reserveDiscountPolicy.MovieDiscountPolicy
-import model.discount.reserveDiscountPolicy.TimeDiscountPolicy
+import model.discount.reserveDiscountPolicy.ReserveDiscountPolicy
 import model.movie.Movie
 import model.schedule.Screening
+import model.seat.Price
 import model.seat.SeatInventory
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -66,8 +66,8 @@ class CartTest {
                     MovieDiscountPolicy(
                         movieDiscountPolicies =
                             listOf(
-                                MovieDayDiscountPolicy(),
-                                TimeDiscountPolicy(),
+                                MockMovieDayDiscountPolicy(),
+                                MockTimeDiscountPolicy(),
                             ),
                     ),
             )
@@ -97,8 +97,8 @@ class CartTest {
                     MovieDiscountPolicy(
                         movieDiscountPolicies =
                             listOf(
-                                MovieDayDiscountPolicy(),
-                                TimeDiscountPolicy(),
+                                MockMovieDayDiscountPolicy(),
+                                MockTimeDiscountPolicy(),
                             ),
                     ),
             )
@@ -179,4 +179,32 @@ class CartTest {
             startDateTime = startDateTime,
             seatInventory = SeatInventory.createDefaultSeatInventory(),
         )
+
+    private class MockMovieDayDiscountPolicy: ReserveDiscountPolicy {
+        private val discountDate = listOf(10, 20, 30)
+
+        override fun calculatePrice(
+            price: Price,
+            reservedDateTime: LocalDateTime,
+        ): Price {
+            if (reservedDateTime.dayOfMonth in discountDate) {
+                return Price((price.value * 0.9).toInt())
+            }
+            return price
+        }
+    }
+
+    private class MockTimeDiscountPolicy: ReserveDiscountPolicy {
+        private val notDiscountTime = listOf(11, 12, 13, 14, 15, 16, 17, 18, 19)
+
+        override fun calculatePrice(
+            price: Price,
+            reservedDateTime: LocalDateTime,
+        ): Price {
+            if (reservedDateTime.hour in notDiscountTime) {
+                return price
+            }
+            return Price(price.value - 2000)
+        }
+    }
 }
