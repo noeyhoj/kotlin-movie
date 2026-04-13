@@ -1,10 +1,8 @@
-package model.discount
+package model.discount.payDiscountPolicy
 
-import model.discount.payDiscountPolicy.PayDiscountBenefits
-import model.discount.payDiscountPolicy.PaymentPayDiscountPolicy
-import model.discount.payDiscountPolicy.PointPayDiscountPolicy
+import model.discount.PaymentMethod
 import model.seat.Price
-import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Test
 
 class PayDiscountBenefitsTest {
@@ -18,7 +16,7 @@ class PayDiscountBenefitsTest {
                 listOf(PointPayDiscountPolicy(usePoint)),
             ).calculatePrice(moviePrice)
 
-        assertThat(totalPrice.value).isEqualTo(40_000)
+        Assertions.assertThat(totalPrice.value).isEqualTo(40_000)
     }
 
     @Test
@@ -36,6 +34,6 @@ class PayDiscountBenefitsTest {
                     ),
             ).calculatePrice(moviePrice)
 
-        assertThat(totalPrice.value).isEqualTo(38_000)
+        Assertions.assertThat(totalPrice.value).isEqualTo(38_000)
     }
 }
