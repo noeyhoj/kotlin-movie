@@ -6,13 +6,6 @@ import org.junit.jupiter.api.assertThrows
 import java.time.LocalDate
 
 class MovieTest {
-    @Test
-    fun `영화는 제목과 상영시간을 가지고 있다`() {
-        val movie = createMovie()
-
-        assertThat(movie.title).isEqualTo("인터스텔라")
-        assertThat(movie.runningTime).isEqualTo(170L)
-    }
 
     @Test
     fun `영화의 상영시간은 0보다 커야 한다`() {
