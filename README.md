@@ -77,6 +77,6 @@
 
 #### ReservationRepository
 
-- [ ] 예매를 저장하면 RESERVATION과 RESERVATION_ITEM이 모두 저장된다
-- [ ] 이미 예약된 좌석을 다시 예약하면 예외가 발생한다
-- [ ] 예매 저장 중 예외 발생 시 트랜잭션이 롤백된다
+- [x] 예매를 저장하면 RESERVATION과 RESERVATION_ITEM이 모두 저장된다
+- [x] 이미 예약된 좌석을 다시 예약하면 예외가 발생한다
+- [x] 예매 저장 중 예외 발생 시 트랜잭션이 롤백된다
