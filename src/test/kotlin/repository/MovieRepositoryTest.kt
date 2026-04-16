@@ -13,7 +13,7 @@ class MovieRepositoryTest {
 
     @BeforeEach
     fun setUp() {
-        DatabaseConfig.getConnection("jdbc:h2:mem:test;DB_CLOSE_DELAY=-1")
+        DatabaseConfig.configure("jdbc:h2:mem:test;DB_CLOSE_DELAY=-1")
         DatabaseConfig.initialize()
         clearTables()
     }

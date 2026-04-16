@@ -4,11 +4,15 @@ import java.sql.Connection
 import java.sql.DriverManager
 
 object DatabaseConfig {
-    private const val URL = "jdbc:h2:~/kotlin-movie"
+    private var url = "jdbc:h2:~/kotlin-movie"
     private const val USER = "sa"
     private const val PASSWORD = ""
 
-    fun getConnection(url: String = URL): Connection = DriverManager.getConnection(url, USER, PASSWORD)
+    fun configure(newUrl: String) {
+        url = newUrl
+    }
+
+    fun getConnection(): Connection = DriverManager.getConnection(url, USER, PASSWORD)
 
     fun initialize() {
         val ddl =
