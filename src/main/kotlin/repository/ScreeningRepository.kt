@@ -1,0 +1,93 @@
+package repository
+
+import db.DatabaseConfig
+import model.movie.Movie
+import model.schedule.Screening
+import model.seat.SeatInventory
+import java.time.LocalDate
+
+class ScreeningRepository {
+    fun findByMovieAndDate(
+        movie: Movie,
+        date: LocalDate,
+    ): List<Screening> {
+        val sql =
+            """
+            SELECT s.id, s.start_time, s.end_time
+            FROM SCREENING s
+            JOIN MOVIE m ON s.movie_id = m.id
+            WHERE m.title = ? AND CAST(s.start_time AS DATE) = ?
+            """.trimIndent()
+
+        val screenings = mutableListOf<Pair<Long, Screening>>()
+
+        DatabaseConfig.getConnection().use { connection ->
+            connection.prepareStatement(sql).use { stmt ->
+                stmt.setString(1, movie.title)
+                stmt.setString(2, date.toString())
+                val rs = stmt.executeQuery()
+                while (rs.next()) {
+                    val id = rs.getLong("id")
+                    val startTime =
+                        rs.getTimestamp("start_time").toLocalDateTime()
+                    val screening =
+                        Screening(
+                            movie = movie,
+                            startDateTime = startTime,
+                            seatInventory =
+                                SeatInventory.createDefaultSeatInventory(),
+                        )
+                    screenings.add(id to screening)
+                }
+            }
+        }
+
+        return screenings.map { (screeningId, screening) ->
+            val reservedSeats =
+                findReservedSeatNames(screeningId)
+            if (reservedSeats.isEmpty()) {
+                screening
+            } else {
+                screening.reserveSeats(reservedSeats)
+            }
+        }
+    }
+
+    fun findReservedSeatNames(screeningId: Long): List<String> {
+        val sql = "SELECT seat_name FROM RESERVATION_ITEM WHERE screening_id = ?"
+        val seatNames = mutableListOf<String>()
+
+        DatabaseConfig.getConnection().use { connection ->
+            connection.prepareStatement(sql).use { stmt ->
+                stmt.setLong(1, screeningId)
+                val rs = stmt.executeQuery()
+                while (rs.next()) {
+                    seatNames.add(rs.getString("seat_name"))
+                }
+            }
+        }
+        return seatNames
+    }
+
+    fun findIdByMovieAndStartTime(screening: Screening): Long {
+        val sql =
+            """
+            SELECT s.id FROM SCREENING s
+            JOIN MOVIE m ON s.movie_id = m.id
+            WHERE m.title = ? AND s.start_time = ?
+            """.trimIndent()
+
+        DatabaseConfig.getConnection().use { connection ->
+            connection.prepareStatement(sql).use { stmt ->
+                stmt.setString(1, screening.movie.title)
+                stmt.setTimestamp(
+                    2,
+                    java.sql.Timestamp.valueOf(screening.startDateTime),
+                )
+                val rs = stmt.executeQuery()
+                if (rs.next()) return rs.getLong("id")
+            }
+        }
+        throw IllegalArgumentException("상영 정보를 찾을 수 없습니다.")
+    }
+}
