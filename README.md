@@ -105,10 +105,10 @@
 - [x] 잘못된 JSON 형식 요청 시 400 Bad Request 반환
 
 #### HTTP API 테스트
-- [ ] `GET /api/movies` 요청 시 200 OK를 반환한다
-- [ ] 영화 목록 조회 응답에 영화와 상영 정보가 올바르게 포함된다
-- [ ] `POST /api/reservations` 요청 시 201 Created를 반환한다
-- [ ] 예매 생성 응답에 reservationId와 totalPrice가 포함된다
-- [ ] 이미 예약된 좌석 예매 요청 시 적절한 오류 응답을 반환한다
-- [ ] 존재하지 않는 상영 ID로 예매 요청 시 적절한 오류 응답을 반환한다
-- [ ] 잘못된 요청 형식에 대해 400 Bad Request를 반환한다
+- [x] `GET /api/movies` 요청 시 200 OK를 반환한다
+- [x] 영화 목록 조회 응답에 영화와 상영 정보가 올바르게 포함된다
+- [x] `POST /api/reservations` 요청 시 201 Created를 반환한다
+- [x] 예매 생성 응답에 reservationId와 totalPrice가 포함된다
+- [x] 이미 예약된 좌석 예매 요청 시 적절한 오류 응답을 반환한다
+- [x] 존재하지 않는 상영 ID로 예매 요청 시 적절한 오류 응답을 반환한다
+- [x] 잘못된 요청 형식에 대해 400 Bad Request를 반환한다
