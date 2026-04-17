@@ -1,4 +1,4 @@
-package controller
+package console.controller
 
 import model.cart.Cart
 import model.cart.CartItem
@@ -14,8 +14,8 @@ import model.schedule.Screening
 import repository.MovieRepository
 import repository.ReservationRepository
 import repository.ScreeningRepository
-import view.InputView
-import view.OutputView
+import console.view.InputView
+import console.view.OutputView
 import java.time.LocalDate
 
 class MovieController {

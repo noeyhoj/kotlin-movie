@@ -1,4 +1,6 @@
-import controller.MovieController
+package console
+
+import console.controller.MovieController
 import db.DataSeeder
 import db.DatabaseConfig
 

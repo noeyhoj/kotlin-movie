@@ -1,4 +1,4 @@
-package view
+package console.view
 
 import model.discount.PaymentMethod
 import java.time.LocalDate
