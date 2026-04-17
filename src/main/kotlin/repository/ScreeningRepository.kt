@@ -118,4 +118,47 @@ class ScreeningRepository {
         }
         return result
     }
+
+    fun findById(id: Long): Screening {
+        val sql = """
+          SELECT s.start_time, m.title,          
+  m.running_time, m.start_date, m.end_date
+          FROM SCREENING s JOIN MOVIE m ON       
+  s.movie_id = m.id                              
+          WHERE s.id = ?                        
+      """.trimIndent()
+
+        DatabaseConfig.getConnection().use {
+                connection ->
+            connection.prepareStatement(sql).use {
+                    stmt ->
+                stmt.setLong(1, id)
+                val rs = stmt.executeQuery()
+                if (rs.next()) {
+                    val movie = Movie(
+                        title =
+                            rs.getString("title"),
+                        runningTime =
+                            rs.getInt("running_time").toLong(),
+                        startDate =
+                            rs.getDate("start_date").toLocalDate(),
+                        endDate =
+                            rs.getDate("end_date").toLocalDate(),
+                    )
+                    val screening = Screening(
+                        movie = movie,
+                        startDateTime = rs.getTimestamp("start_time").toLocalDateTime(),
+                        seatInventory =
+                            SeatInventory.createDefaultSeatInventory(),
+                    )
+                    val reservedSeats =
+                        findReservedSeatNames(id)
+                    return if
+                                   (reservedSeats.isEmpty()) screening else
+                        screening.reserveSeats(reservedSeats)
+                }
+            }
+        }
+        throw IllegalArgumentException("존재하지 않는 상영입니다. id=$id")
+    }
 }

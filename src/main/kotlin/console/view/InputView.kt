@@ -79,7 +79,7 @@ class InputView {
 
     private fun choosePaymentMethod(input: String): PaymentMethod =
         when (input) {
-            "1" -> PaymentMethod.CARD
+            "1" -> PaymentMethod.CREDIT_CARD
             "2" -> PaymentMethod.CASH
             else -> throw IllegalArgumentException("잘못된 입력입니다")
         }

@@ -40,7 +40,7 @@ class ReservationRepositoryTest {
     fun `예매를 저장하면 RESERVATION과 RESERVATION_ITEM이 모두 저장된다`() {
         val cart = Cart(listOf(CartItem(screening, listOf("A1", "A2"))))
 
-        repository.save(cart, PaymentMethod.CARD, usedPoint = 0, totalPrice = 24000)
+        repository.save(cart, PaymentMethod.CREDIT_CARD, usedPoint = 0, totalPrice = 24000)
 
         assertThat(countReservations()).isEqualTo(1)
         assertThat(countReservationItems()).isEqualTo(2)
@@ -49,12 +49,12 @@ class ReservationRepositoryTest {
     @Test
     fun `이미 예약된 좌석을 다시 예약하면 예외가 발생한다`() {
         val cart = Cart(listOf(CartItem(screening, listOf("A1"))))
-        repository.save(cart, PaymentMethod.CARD, usedPoint = 0, totalPrice = 12000)
+        repository.save(cart, PaymentMethod.CREDIT_CARD, usedPoint = 0, totalPrice = 12000)
 
         val duplicateCart = Cart(listOf(CartItem(screening, listOf("A1"))))
 
         assertThatThrownBy {
-            repository.save(duplicateCart, PaymentMethod.CARD, usedPoint = 0, totalPrice = 12000)
+            repository.save(duplicateCart, PaymentMethod.CREDIT_CARD, usedPoint = 0, totalPrice = 12000)
         }
     }
 
@@ -62,13 +62,13 @@ class ReservationRepositoryTest {
     fun `예매 저장 중 예외 발생 시 트랜잭션이 롤백된다`() {
         // A1을 미리 예약해두어 두 번째 save 시 A1 삽입 시점에 UNIQUE 위반 발생
         val firstCart = Cart(listOf(CartItem(screening, listOf("A1"))))
-        repository.save(firstCart, PaymentMethod.CARD, usedPoint = 0, totalPrice = 12000)
+        repository.save(firstCart, PaymentMethod.CREDIT_CARD, usedPoint = 0, totalPrice = 12000)
 
         // A2는 정상이지만 A1에서 실패 → 트랜잭션 전체 롤백
         val partialFailCart = Cart(listOf(CartItem(screening, listOf("A2", "A1"))))
 
         assertThatThrownBy {
-            repository.save(partialFailCart, PaymentMethod.CARD, usedPoint = 0, totalPrice = 24000)
+            repository.save(partialFailCart, PaymentMethod.CREDIT_CARD, usedPoint = 0, totalPrice = 24000)
         }
 
         // RESERVATION은 첫 번째 예매 1건만 존재해야 한다

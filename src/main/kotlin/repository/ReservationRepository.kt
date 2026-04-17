@@ -13,7 +13,7 @@ class ReservationRepository(
         paymentMethod: PaymentMethod,
         usedPoint: Int,
         totalPrice: Int,
-    ) {
+    ): Long {
         DatabaseConfig.getConnection().use { connection ->
             connection.autoCommit = false // 트랜잭션 시작
             try {
@@ -42,6 +42,7 @@ class ReservationRepository(
                 }
 
                 connection.commit()
+                return reservationId
             } catch (e: Exception) {
                 connection.rollback()
                 throw e

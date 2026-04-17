@@ -95,9 +95,9 @@
 - [x] 응답에 영화 id, 제목, 상영 시간(분), 상영 목록(id, 시작/종료 시각) 포함
 
 #### 예매 생성 API
-- [ ] `POST /api/reservations` 요청 시 예매를 생성하고 결과를 JSON으로 반환
-- [ ] 응답에 reservationId, 예매 목록, 사용 포인트, 결제 수단, 최종 금액 포함
-- [ ] 201 Created 상태 코드 반환
+- [x] `POST /api/reservations` 요청 시 예매를 생성하고 결과를 JSON으로 반환
+- [x] 응답에 reservationId, 예매 목록, 사용 포인트, 결제 수단, 최종 금액 포함
+- [x] 201 Created 상태 코드 반환
 
 #### 예외 처리
 - [ ] 존재하지 않는 상영 ID로 예매 요청 시 적절한 오류 응답 반환
