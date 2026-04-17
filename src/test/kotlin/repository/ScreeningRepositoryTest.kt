@@ -107,7 +107,7 @@ class ScreeningRepositoryTest {
                 "INSERT INTO RESERVATION (payment_method, used_point, total_price) VALUES (?, ?, ?)",
                 java.sql.Statement.RETURN_GENERATED_KEYS,
             ).use { stmt ->
-                stmt.setString(1, "CARD")
+                stmt.setString(1, "CREDIT_CARD")
                 stmt.setInt(2, 0)
                 stmt.setInt(3, 12000)
                 stmt.executeUpdate()
