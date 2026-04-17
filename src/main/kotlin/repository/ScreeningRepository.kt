@@ -1,5 +1,6 @@
 package repository
 
+import api.exception.ScreeningNotFoundException
 import db.DatabaseConfig
 import model.movie.Movie
 import model.schedule.Screening
@@ -159,6 +160,6 @@ class ScreeningRepository {
                 }
             }
         }
-        throw IllegalArgumentException("존재하지 않는 상영입니다. id=$id")
+        throw ScreeningNotFoundException(id)
     }
 }
