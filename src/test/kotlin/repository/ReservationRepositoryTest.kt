@@ -21,11 +21,12 @@ class ReservationRepositoryTest {
 
     private val movie = Movie("탑건: 매버릭", 130, LocalDate.of(2026, 4, 1), LocalDate.of(2026, 4, 30))
     private val startDateTime = LocalDateTime.of(2026, 4, 17, 10, 0)
-    private val screening = Screening(
-        movie = movie,
-        startDateTime = startDateTime,
-        seatInventory = SeatInventory.createDefaultSeatInventory(),
-    )
+    private val screening =
+        Screening(
+            movie = movie,
+            startDateTime = startDateTime,
+            seatInventory = SeatInventory.createDefaultSeatInventory(),
+        )
 
     @BeforeEach
     fun setUp() {
@@ -79,19 +80,20 @@ class ReservationRepositoryTest {
 
     private fun insertMovie(title: String): Long {
         DatabaseConfig.getConnection().use { conn ->
-            conn.prepareStatement(
-                "INSERT INTO MOVIE (title, running_time, start_date, end_date) VALUES (?, ?, ?, ?)",
-                java.sql.Statement.RETURN_GENERATED_KEYS,
-            ).use { stmt ->
-                stmt.setString(1, title)
-                stmt.setInt(2, 130)
-                stmt.setDate(3, Date.valueOf(LocalDate.of(2026, 4, 1)))
-                stmt.setDate(4, Date.valueOf(LocalDate.of(2026, 4, 30)))
-                stmt.executeUpdate()
-                val keys = stmt.generatedKeys
-                keys.next()
-                return keys.getLong(1)
-            }
+            conn
+                .prepareStatement(
+                    "INSERT INTO MOVIE (title, running_time, start_date, end_date) VALUES (?, ?, ?, ?)",
+                    java.sql.Statement.RETURN_GENERATED_KEYS,
+                ).use { stmt ->
+                    stmt.setString(1, title)
+                    stmt.setInt(2, 130)
+                    stmt.setDate(3, Date.valueOf(LocalDate.of(2026, 4, 1)))
+                    stmt.setDate(4, Date.valueOf(LocalDate.of(2026, 4, 30)))
+                    stmt.executeUpdate()
+                    val keys = stmt.generatedKeys
+                    keys.next()
+                    return keys.getLong(1)
+                }
         }
     }
 
@@ -100,14 +102,15 @@ class ReservationRepositoryTest {
         endTime: LocalDateTime,
     ) {
         DatabaseConfig.getConnection().use { conn ->
-            conn.prepareStatement(
-                "INSERT INTO SCREENING (movie_id, start_time, end_time) SELECT id, ?, ? FROM MOVIE WHERE title = ?",
-            ).use { stmt ->
-                stmt.setTimestamp(1, Timestamp.valueOf(startTime))
-                stmt.setTimestamp(2, Timestamp.valueOf(endTime))
-                stmt.setString(3, movie.title)
-                stmt.executeUpdate()
-            }
+            conn
+                .prepareStatement(
+                    "INSERT INTO SCREENING (movie_id, start_time, end_time) SELECT id, ?, ? FROM MOVIE WHERE title = ?",
+                ).use { stmt ->
+                    stmt.setTimestamp(1, Timestamp.valueOf(startTime))
+                    stmt.setTimestamp(2, Timestamp.valueOf(endTime))
+                    stmt.setString(3, movie.title)
+                    stmt.executeUpdate()
+                }
         }
     }
 

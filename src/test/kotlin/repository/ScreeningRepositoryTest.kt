@@ -47,11 +47,12 @@ class ScreeningRepositoryTest {
     @Test
     fun `예약된 좌석이 상영 조회 결과에 반영된다`() {
         val movieId = insertMovie("탑건: 매버릭")
-        val screeningId = insertScreening(
-            movieId,
-            LocalDateTime.of(2026, 4, 17, 10, 0),
-            LocalDateTime.of(2026, 4, 17, 12, 10),
-        )
+        val screeningId =
+            insertScreening(
+                movieId,
+                LocalDateTime.of(2026, 4, 17, 10, 0),
+                LocalDateTime.of(2026, 4, 17, 12, 10),
+            )
         val reservationId = insertReservation()
         insertReservationItem(reservationId, screeningId, "A1")
 
@@ -64,19 +65,20 @@ class ScreeningRepositoryTest {
 
     private fun insertMovie(title: String): Long {
         DatabaseConfig.getConnection().use { conn ->
-            conn.prepareStatement(
-                "INSERT INTO MOVIE (title, running_time, start_date, end_date) VALUES (?, ?, ?, ?)",
-                java.sql.Statement.RETURN_GENERATED_KEYS,
-            ).use { stmt ->
-                stmt.setString(1, title)
-                stmt.setInt(2, 130)
-                stmt.setDate(3, Date.valueOf(LocalDate.of(2026, 4, 1)))
-                stmt.setDate(4, Date.valueOf(LocalDate.of(2026, 4, 30)))
-                stmt.executeUpdate()
-                val keys = stmt.generatedKeys
-                keys.next()
-                return keys.getLong(1)
-            }
+            conn
+                .prepareStatement(
+                    "INSERT INTO MOVIE (title, running_time, start_date, end_date) VALUES (?, ?, ?, ?)",
+                    java.sql.Statement.RETURN_GENERATED_KEYS,
+                ).use { stmt ->
+                    stmt.setString(1, title)
+                    stmt.setInt(2, 130)
+                    stmt.setDate(3, Date.valueOf(LocalDate.of(2026, 4, 1)))
+                    stmt.setDate(4, Date.valueOf(LocalDate.of(2026, 4, 30)))
+                    stmt.executeUpdate()
+                    val keys = stmt.generatedKeys
+                    keys.next()
+                    return keys.getLong(1)
+                }
         }
     }
 
@@ -86,35 +88,37 @@ class ScreeningRepositoryTest {
         endTime: LocalDateTime,
     ): Long {
         DatabaseConfig.getConnection().use { conn ->
-            conn.prepareStatement(
-                "INSERT INTO SCREENING (movie_id, start_time, end_time) VALUES (?, ?, ?)",
-                java.sql.Statement.RETURN_GENERATED_KEYS,
-            ).use { stmt ->
-                stmt.setLong(1, movieId)
-                stmt.setTimestamp(2, Timestamp.valueOf(startTime))
-                stmt.setTimestamp(3, Timestamp.valueOf(endTime))
-                stmt.executeUpdate()
-                val keys = stmt.generatedKeys
-                keys.next()
-                return keys.getLong(1)
-            }
+            conn
+                .prepareStatement(
+                    "INSERT INTO SCREENING (movie_id, start_time, end_time) VALUES (?, ?, ?)",
+                    java.sql.Statement.RETURN_GENERATED_KEYS,
+                ).use { stmt ->
+                    stmt.setLong(1, movieId)
+                    stmt.setTimestamp(2, Timestamp.valueOf(startTime))
+                    stmt.setTimestamp(3, Timestamp.valueOf(endTime))
+                    stmt.executeUpdate()
+                    val keys = stmt.generatedKeys
+                    keys.next()
+                    return keys.getLong(1)
+                }
         }
     }
 
     private fun insertReservation(): Long {
         DatabaseConfig.getConnection().use { conn ->
-            conn.prepareStatement(
-                "INSERT INTO RESERVATION (payment_method, used_point, total_price) VALUES (?, ?, ?)",
-                java.sql.Statement.RETURN_GENERATED_KEYS,
-            ).use { stmt ->
-                stmt.setString(1, "CREDIT_CARD")
-                stmt.setInt(2, 0)
-                stmt.setInt(3, 12000)
-                stmt.executeUpdate()
-                val keys = stmt.generatedKeys
-                keys.next()
-                return keys.getLong(1)
-            }
+            conn
+                .prepareStatement(
+                    "INSERT INTO RESERVATION (payment_method, used_point, total_price) VALUES (?, ?, ?)",
+                    java.sql.Statement.RETURN_GENERATED_KEYS,
+                ).use { stmt ->
+                    stmt.setString(1, "CREDIT_CARD")
+                    stmt.setInt(2, 0)
+                    stmt.setInt(3, 12000)
+                    stmt.executeUpdate()
+                    val keys = stmt.generatedKeys
+                    keys.next()
+                    return keys.getLong(1)
+                }
         }
     }
 
@@ -124,14 +128,15 @@ class ScreeningRepositoryTest {
         seatName: String,
     ) {
         DatabaseConfig.getConnection().use { conn ->
-            conn.prepareStatement(
-                "INSERT INTO RESERVATION_ITEM (reservation_id, screening_id, seat_name) VALUES (?, ?, ?)",
-            ).use { stmt ->
-                stmt.setLong(1, reservationId)
-                stmt.setLong(2, screeningId)
-                stmt.setString(3, seatName)
-                stmt.executeUpdate()
-            }
+            conn
+                .prepareStatement(
+                    "INSERT INTO RESERVATION_ITEM (reservation_id, screening_id, seat_name) VALUES (?, ?, ?)",
+                ).use { stmt ->
+                    stmt.setLong(1, reservationId)
+                    stmt.setLong(2, screeningId)
+                    stmt.setString(3, seatName)
+                    stmt.executeUpdate()
+                }
         }
     }
 

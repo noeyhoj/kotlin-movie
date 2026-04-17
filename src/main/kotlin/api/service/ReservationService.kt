@@ -29,22 +29,25 @@ class ReservationService(
             cart = cart.addItem(CartItem(reservedScreening, itemRequest.seats))
         }
 
-        val moviePrice = cart.calculateItemsPrice(
-            MovieDiscountPolicy(listOf(MovieDayDiscountPolicy(), TimeDiscountPolicy()))
-        )
-        val totalPrice = PayDiscountBenefits(
-            listOf(
-                PointPayDiscountPolicy(request.usedPoints),
-                PaymentPayDiscountPolicy(request.paymentMethod),
+        val moviePrice =
+            cart.calculateItemsPrice(
+                MovieDiscountPolicy(listOf(MovieDayDiscountPolicy(), TimeDiscountPolicy())),
             )
-        ).calculatePrice(moviePrice)
+        val totalPrice =
+            PayDiscountBenefits(
+                listOf(
+                    PointPayDiscountPolicy(request.usedPoints),
+                    PaymentPayDiscountPolicy(request.paymentMethod),
+                ),
+            ).calculatePrice(moviePrice)
 
-        val reservationId = reservationRepository.save(
-            cart = cart,
-            paymentMethod = request.paymentMethod,
-            usedPoint = request.usedPoints,
-            totalPrice = totalPrice.value,
-        )
+        val reservationId =
+            reservationRepository.save(
+                cart = cart,
+                paymentMethod = request.paymentMethod,
+                usedPoint = request.usedPoints,
+                totalPrice = totalPrice.value,
+            )
 
         return ReservationResponse(
             reservationId = reservationId,

@@ -17,6 +17,7 @@ class ReservationApiController(
 ) {
     @PostMapping("/reservations")
     @ResponseStatus(HttpStatus.CREATED)
-    fun createReservation(@RequestBody request: ReservationRequest): ReservationResponse =
-        reservationService.reserve(request)
+    fun createReservation(
+        @RequestBody request: ReservationRequest,
+    ): ReservationResponse = reservationService.reserve(request)
 }

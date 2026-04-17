@@ -25,26 +25,30 @@ class MovieRepository {
 
     fun findAll(): List<Pair<Long, Movie>> {
         val sql = "SELECT * FROM MOVIE"
-        val result = mutableListOf<Pair<Long,
-                Movie>>()
+        val result =
+            mutableListOf<
+                Pair<
+                    Long,
+                    Movie,
+                >,
+            >()
 
-        DatabaseConfig.getConnection().use {
-                connection ->
-            connection.createStatement().use { stmt
-                ->
+        DatabaseConfig.getConnection().use { connection ->
+            connection.createStatement().use { stmt ->
                 val rs = stmt.executeQuery(sql)
                 while (rs.next()) {
                     result.add(
-                        rs.getLong("id") to Movie(
-                            title =
-                                rs.getString("title"),
-                            runningTime =
-                                rs.getInt("running_time").toLong(),
-                            startDate =
-                                rs.getDate("start_date").toLocalDate(),
-                            endDate =
-                                rs.getDate("end_date").toLocalDate(),
-                        )
+                        rs.getLong("id") to
+                            Movie(
+                                title =
+                                    rs.getString("title"),
+                                runningTime =
+                                    rs.getInt("running_time").toLong(),
+                                startDate =
+                                    rs.getDate("start_date").toLocalDate(),
+                                endDate =
+                                    rs.getDate("end_date").toLocalDate(),
+                            ),
                     )
                 }
             }

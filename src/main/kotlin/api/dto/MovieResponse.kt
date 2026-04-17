@@ -2,8 +2,9 @@ package api.dto
 
 import java.time.LocalDateTime
 
-data class MovieListResponse(val movies:
-                             List<MovieResponse>)
+data class MovieListResponse(
+    val movies: List<MovieResponse>,
+)
 
 data class MovieResponse(
     val id: Long,

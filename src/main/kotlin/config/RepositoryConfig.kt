@@ -15,6 +15,5 @@ class RepositoryConfig {
     fun screeningRepository() = ScreeningRepository()
 
     @Bean
-    fun reservationRepository(screeningRepository: ScreeningRepository) =
-        ReservationRepository(screeningRepository)
+    fun reservationRepository(screeningRepository: ScreeningRepository) = ReservationRepository(screeningRepository)
 }

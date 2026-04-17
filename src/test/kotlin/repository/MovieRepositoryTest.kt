@@ -44,15 +44,16 @@ class MovieRepositoryTest {
         endDate: LocalDate = LocalDate.of(2026, 4, 30),
     ) {
         DatabaseConfig.getConnection().use { conn ->
-            conn.prepareStatement(
-                "INSERT INTO MOVIE (title, running_time, start_date, end_date) VALUES (?, ?, ?, ?)",
-            ).use { stmt ->
-                stmt.setString(1, title)
-                stmt.setInt(2, runningTime)
-                stmt.setDate(3, Date.valueOf(startDate))
-                stmt.setDate(4, Date.valueOf(endDate))
-                stmt.executeUpdate()
-            }
+            conn
+                .prepareStatement(
+                    "INSERT INTO MOVIE (title, running_time, start_date, end_date) VALUES (?, ?, ?, ?)",
+                ).use { stmt ->
+                    stmt.setString(1, title)
+                    stmt.setInt(2, runningTime)
+                    stmt.setDate(3, Date.valueOf(startDate))
+                    stmt.setDate(4, Date.valueOf(endDate))
+                    stmt.executeUpdate()
+                }
         }
     }
 

@@ -9,26 +9,31 @@ import repository.ScreeningRepository
 
 @Service
 class MovieService(
-    private val movieRepository:
-    MovieRepository,
-    private val screeningRepository:
-    ScreeningRepository,
+    private val movieRepository: MovieRepository,
+    private val screeningRepository: ScreeningRepository,
 ) {
     fun findAll(): MovieListResponse {
         val movies =
-            movieRepository.findAll().map { (movieId,
-                                                movie) ->
+            movieRepository.findAll().map {
+                (
+                    movieId,
+                    movie,
+                ),
+                ->
                 val screenings =
-                    screeningRepository.findByMovieId(movieId,
-                        movie).map { (screeningId, screening) ->
-                        ScreeningResponse(
-                            id = screeningId,
-                            startAt =
-                                screening.startDateTime,
-                            endAt =
-                                screening.endDateTime,
-                        )
-                    }
+                    screeningRepository
+                        .findByMovieId(
+                            movieId,
+                            movie,
+                        ).map { (screeningId, screening) ->
+                            ScreeningResponse(
+                                id = screeningId,
+                                startAt =
+                                    screening.startDateTime,
+                                endAt =
+                                    screening.endDateTime,
+                            )
+                        }
                 MovieResponse(
                     id = movieId,
                     title = movie.title,
