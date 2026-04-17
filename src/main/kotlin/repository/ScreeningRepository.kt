@@ -90,4 +90,32 @@ class ScreeningRepository {
         }
         throw IllegalArgumentException("상영 정보를 찾을 수 없습니다.")
     }
+
+    fun findByMovieId(movieId: Long, movie: Movie):
+            List<Pair<Long, Screening>> {
+        val sql = "SELECT id, start_time FROM SCREENING WHERE movie_id = ?"
+        val result = mutableListOf<Pair<Long,
+                Screening>>()
+
+        DatabaseConfig.getConnection().use {
+                connection ->
+            connection.prepareStatement(sql).use {
+                    stmt ->
+                stmt.setLong(1, movieId)
+                val rs = stmt.executeQuery()
+                while (rs.next()) {
+                    result.add(
+                        rs.getLong("id") to
+                                Screening(
+                                    movie = movie,
+                                    startDateTime = rs.getTimestamp("start_time").toLocalDateTime(),
+                                    seatInventory =
+                                        SeatInventory.createDefaultSeatInventory(),
+                                )
+                    )
+                }
+            }
+        }
+        return result
+    }
 }

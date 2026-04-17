@@ -91,8 +91,8 @@
 - [x] `@SpringBootApplication`으로 Spring Boot 애플리케이션 실행
 
 #### 영화 목록 조회 API
-- [ ] `GET /api/movies` 요청 시 전체 영화 및 상영 정보를 JSON으로 반환
-- [ ] 응답에 영화 id, 제목, 상영 시간(분), 상영 목록(id, 시작/종료 시각) 포함
+- [x] `GET /api/movies` 요청 시 전체 영화 및 상영 정보를 JSON으로 반환
+- [x] 응답에 영화 id, 제목, 상영 시간(분), 상영 목록(id, 시작/종료 시각) 포함
 
 #### 예매 생성 API
 - [ ] `POST /api/reservations` 요청 시 예매를 생성하고 결과를 JSON으로 반환
