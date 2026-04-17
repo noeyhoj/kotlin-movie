@@ -88,7 +88,7 @@
 ### 기능 목록
 
 #### 애플리케이션 진입점
-- [ ] `@SpringBootApplication`으로 Spring Boot 애플리케이션 실행
+- [x] `@SpringBootApplication`으로 Spring Boot 애플리케이션 실행
 
 #### 영화 목록 조회 API
 - [ ] `GET /api/movies` 요청 시 전체 영화 및 상영 정보를 JSON으로 반환
